@@ -1,9 +1,8 @@
 from model.project import Project
 from random import randint
 def test_add_project(app):
-    app.project.get_projects_list()
-    old_list_projects = app.project.get_projects_list()
 
+    old_list_projects = app.soap.get_project_list(app.config['webadmin']['username'], app.config['webadmin']['password'])
     #project = Project(name="name_project2282", description="description_project")
     project = Project(name=f"name_project{randint(0, 5000)}", description="description_project")
     if project in old_list_projects:
@@ -11,7 +10,7 @@ def test_add_project(app):
         old_list_projects.remove(project)
 
     app.project.create(project)
-    new_list_projects = app.project.get_projects_list()
+    new_list_projects = app.soap.get_project_list(app.config['webadmin']['username'], app.config['webadmin']['password'])
     old_list_projects.append(project)
 
     assert len(new_list_projects) == len(old_list_projects)
