@@ -3,7 +3,7 @@ from random import randint
 import random
 def test_del_project(app):
 
-    old_list_projects = app.soap.get_project_list(app.config['webadmin']['username'], app.config['webadmin']['password'])
+    old_list_projects = app.soap.get_project_list()
     if len(old_list_projects) == 0:
         project = Project(name=f"name_project{randint(0, 5000)}", description="description_project")
         app.project.create(project)
@@ -11,7 +11,7 @@ def test_del_project(app):
     project = random.choice(old_list_projects)
     app.project.delete(project)
 
-    new_list_projects = app.soap.get_project_list(app.config['webadmin']['username'], app.config['webadmin']['password'])
+    new_list_projects = app.soap.get_project_list()
     old_list_projects.remove(project)
 
     assert len(old_list_projects) == len(new_list_projects)
